@@ -1,0 +1,548 @@
+:root {
+    --gateflo-font-family: 'Mulish', sans-serif;
+    --gateflo-primary-color: #0582CA;
+    --gateflo-primary-color-rgb: 5, 130, 202;
+    --gateflo-text-color: #1F2348;
+    --gateflo-secondary-color: #757575;
+    --gateflo-secondary-color-rgb: 117, 117, 117;
+    --gateflo-background-color: #FFFFFF;
+    --gateflo-border-color: #E5E5E5;
+    --gateflo-border-radius: 8px;
+    --gateflo-box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    --gateflo-padding: 24px;
+    --gateflo-margin: 24px;
+    --gateflo-heading-size: 1.5em;
+    --gateflo-heading-weight: 700;
+    --gateflo-transition: all 0.2s ease;
+}
+
+.gateflo-container {
+    font-family: var(--gateflo-font-family);
+    font-size: 16px;
+    color: var(--gateflo-text-color);
+    background-color: var(--gateflo-background-color);
+    border-radius: var(--gateflo-border-radius);
+    box-shadow: var(--gateflo-box-shadow);
+    padding: var(--gateflo-padding);
+    margin: var(--gateflo-margin);
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.gateflo-merchant {
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 16px;
+    border-radius: var(--gateflo-border-radius);
+    background: rgba(var(--gateflo-primary-color-rgb), 0.05);
+}
+
+.gateflo-merchant img {
+    max-width: 120px;
+    height: auto;
+    margin-bottom: 16px;
+    border-radius: var(--gateflo-border-radius);
+}
+
+.gateflo-merchant h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: 0;
+    color: var(--gateflo-text-color);
+    background: linear-gradient(135deg, #E9B213, #EC991C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Modal Styles */
+.gateflo-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.gateflo-modal-backdrop.active {
+    opacity: 1;
+}
+
+.gateflo-modal {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: 100%;
+    max-width: 600px;
+    background: var(--gateflo-background-color, #ffffff);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+    overflow: hidden;
+}
+
+.gateflo-modal.active {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Currency Selection */
+.gateflo-currencies {
+    display: flex;
+    overflow-x: auto;
+    padding: 20px;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.gateflo-currencies::-webkit-scrollbar {
+    height: 4px;
+}
+
+.gateflo-currencies::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+}
+
+.gateflo-currencies::-webkit-scrollbar-thumb {
+    background: var(--gateflo-primary-color, #6366f1);
+    border-radius: 2px;
+}
+
+.gateflo-currency-option {
+    flex: 0 0 auto;
+    width: 180px;
+    background: transparent;
+    border: 2px solid var(--gateflo-border-color);
+    border-radius: var(--gateflo-border-radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: inherit;
+    scroll-snap-align: start;
+    position: relative;
+    overflow: hidden;
+}
+
+.gateflo-currency-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gateflo-primary-color, #6366f1);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 0;
+}
+
+.gateflo-currency-option:hover {
+    transform: translateY(-2px);
+    border-color: var(--gateflo-primary-color);
+    box-shadow: 0 4px 12px rgba(var(--gateflo-primary-color-rgb), 0.15);
+}
+
+.gateflo-currency-option.active {
+    border-color: var(--gateflo-primary-color);
+    background: rgba(var(--gateflo-primary-color-rgb), 0.05);
+    transform: scale(1.02);
+}
+
+.gateflo-currency-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+.gateflo-currency-option .currency {
+    font-size: 1.2em;
+    font-weight: var(--gateflo-heading-weight);
+    margin-bottom: 8px;
+    color: var(--gateflo-text-color);
+    position: relative;
+    z-index: 1;
+}
+
+.gateflo-currency-option .amount {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--gateflo-primary-color);
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
+}
+
+.gateflo-currency-option .rate {
+    font-size: 0.85em;
+    color: var(--gateflo-secondary-color);
+    position: relative;
+    z-index: 1;
+}
+
+/* Preview Panel */
+.gateflo-preview {
+    padding: 20px;
+    border-top: 1px solid var(--gateflo-border-color);
+    background: rgba(var(--gateflo-primary-color-rgb), 0.02);
+    transition: opacity 0.3s ease;
+}
+
+.gateflo-preview-content {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.gateflo-preview h3 {
+    font-size: 1.1em;
+    color: var(--gateflo-text-color);
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.gateflo-preview-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: white;
+    padding: 16px;
+    border-radius: var(--gateflo-border-radius);
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.gateflo-preview-info {
+    text-align: left;
+}
+
+.gateflo-preview-amount {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--gateflo-primary-color);
+    margin: 0;
+}
+
+.gateflo-preview-rate {
+    font-size: 0.9em;
+    color: var(--gateflo-secondary-color);
+    margin: 4px 0 0;
+}
+
+/* Currency Selection Transitions */
+.gateflo-currencies,
+.gateflo-preview,
+.gateflo-payment-details {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.gateflo-currencies.hidden,
+.gateflo-preview.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.gateflo-payment-details {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.gateflo-payment-details.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Continue Button */
+.gateflo-continue {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 20px auto;
+    padding: 16px;
+    background: var(--gateflo-primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--gateflo-border-radius);
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.gateflo-continue:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--gateflo-primary-color-rgb), 0.2);
+}
+
+.gateflo-continue:active {
+    transform: translateY(0);
+}
+
+.gateflo-payment-details {
+    margin-top: 24px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: var(--gateflo-background-color, #ffffff);
+    border-radius: var(--gateflo-border-radius, 6px);
+    box-shadow: var(--gateflo-box-shadow, 0 2px 4px rgba(0,0,0,0.1));
+    overflow: visible;
+    transition: all 0.3s ease-out;
+}
+
+.gateflo-payment-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 24px;
+    background: var(--gateflo-background-color, #ffffff);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.gateflo-payment-info .gateflo-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+    margin: 0 auto;
+    background: rgba(var(--gateflo-primary-color-rgb, 99, 102, 241), 0.05);
+    border-radius: var(--gateflo-border-radius, 6px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.gateflo-payment-info .gateflo-details > * {
+    margin-bottom: 16px;
+}
+
+.gateflo-payment-info .gateflo-details > *:last-child {
+    margin-bottom: 0;
+}
+
+.gateflo-amount {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--gateflo-primary-color, #6366f1);
+    margin-bottom: 20px;
+}
+
+.gateflo-hub-button {
+    display: inline-block;
+    padding: 14px 28px;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 300px;
+    background: var(--gateflo-primary-color, #6366f1);
+    color: white;
+    border: none;
+    border-radius: var(--gateflo-border-radius, 6px);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    text-align: center;
+}
+
+.gateflo-hub-button:hover {
+    background: var(--gateflo-primary-hover-color, #4f46e5);
+    transform: translateY(-1px);
+}
+
+.gateflo-hub-button:active {
+    transform: translateY(0);
+}
+
+.gateflo-hub-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.gateflo-qr {
+    background: white;
+    padding: 16px;
+    border-radius: var(--gateflo-border-radius);
+    margin-bottom: 20px;
+    box-shadow: var(--gateflo-box-shadow);
+}
+
+.gateflo-qr img {
+    display: block;
+    width: 200px;
+    height: 200px;
+}
+
+.gateflo-details {
+    width: 100%;
+}
+
+.gateflo-address {
+    background: rgba(var(--gateflo-secondary-color-rgb), 0.1);
+    padding: 12px;
+    border-radius: var(--gateflo-border-radius);
+    font-family: monospace;
+    font-size: 0.9em;
+    word-break: break-all;
+    margin: 12px 0;
+}
+
+.gateflo-instructions {
+    color: var(--gateflo-secondary-color);
+    font-size: 0.9em;
+    line-height: 1.4;
+    margin: 12px 0;
+}
+
+.gateflo-error {
+    color: #dc3545;
+    background: #fff5f5;
+    padding: 12px;
+    border-radius: var(--gateflo-border-radius, 6px);
+    text-align: center;
+    margin: 12px 0;
+}
+
+
+.gateflo-status {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--gateflo-primary-color, #6366f1);
+    padding: 12px;
+    border-radius: var(--gateflo-border-radius, 6px);
+    text-align: center;
+    margin: 12px 0;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.gateflo-status {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: var(--gateflo-border-radius);
+    background: rgba(var(--gateflo-primary-color-rgb), 0.1);
+}
+
+.gateflo-status h3 {
+    color: var(--gateflo-primary-color);
+    margin: 0 0 8px;
+    font-size: 1.2em;
+    font-weight: var(--gateflo-heading-weight);
+}
+
+.gateflo-status p {
+    margin: 4px 0;
+    font-size: 0.9em;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .gateflo-container {
+        margin: 0;
+        border-radius: 0;
+        padding: 16px;
+    }
+
+    .gateflo-currencies {
+        grid-template-columns: 1fr;
+    }
+
+    .gateflo-qr img {
+        width: 160px;
+        height: 160px;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .gateflo-container {
+        background-color: var(--gateflo-background-color, #1a1a1a);
+        color: var(--gateflo-text-color, #ffffff);
+    }
+
+    .gateflo-qr {
+        background: #ffffff;
+    }
+
+    .gateflo-error {
+        background: rgba(220, 53, 69, 0.1);
+    }
+}
+
+/* Animation for Status Updates */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.gateflo-status {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.gateflo-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(var(--gateflo-primary-color-rgb, 99, 102, 241), 0.1);
+    border-top-color: var(--gateflo-primary-color, #6366f1);
+    border-radius: 50%;
+    margin: 16px auto;
+    animation: spin 1s linear infinite;
+}
+
+.gateflo-retry-button {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-top: 12px;
+    background: var(--gateflo-primary-color, #6366f1);
+    color: white;
+    border: none;
+    border-radius: var(--gateflo-border-radius, 6px);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.gateflo-retry-button:hover {
+    background: var(--gateflo-primary-hover-color, #4f46e5);
+}
+
+.gateflo-status-timeout,
+.gateflo-status-failed {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.gateflo-status-confirmed {
+    background: rgba(25, 135, 84, 0.1);
+    color: #198754;
+}
+
+.gateflo-status-pending {
+    background: rgba(var(--gateflo-primary-color-rgb, 99, 102, 241), 0.1);
+    color: var(--gateflo-primary-color, #6366f1);
+}

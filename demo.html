@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GateFlo Demo</title>
+    <!-- Required external dependencies -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@nimiq/hub-api@v1.2.3/dist/standalone/HubApi.standalone.umd.js"
+        integrity="sha256-5X6zryCUAPOnfjLU8tEtJrLdcslA2UI27RsUWnLAxHs="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@4.0.3/dist/web3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Our bundle -->
+    <script src="./dist/gateflo.umd.min.js"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        #pay-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>GateFlo Demo</h1>
+    <p>Accept crypto payments in multiple currencies with automatic style detection and seamless integration.</p>
+    <button id="pay-button" onclick="handlePayment()">Pay $1.00</button>
+
+    <script>
+        console.log('Window object:', window);
+        console.log('GateFlo available:', typeof GateFlo);
+        
+        let gateflo;
+
+        async function handlePayment() {
+            console.log('Payment button clicked');
+            try {
+                if (!gateflo) {
+                    console.log('Initializing GateFlo...');
+                    gateflo = new GateFlo({
+                        container: document.body,
+                        merchant: {
+                            name: 'Demo Store',
+                            addresses: {
+                                nim: 'NQ03 KVYT C7F6 TH1P H67M LGLK 2KBP 8B12 TAPN',
+                                btc: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+                                usdc: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+                                usdt: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+                            }
+                        }
+                    });
+                    console.log('GateFlo initialized');
+                }
+
+                console.log('Showing payment modal...');
+                const result = await gateflo.showPayment({
+                    amount: 1.00,
+                    currency: 'USD'
+                });
+                console.log('Payment modal created:', result);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to show payment interface: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
